@@ -200,4 +200,5 @@ def analise_quantil(df, col, n=10):
     plt.tight_layout()
     plt.show()
 
+    df.drop(columns=["quantil"], inplace=True)
     return None
