@@ -6,7 +6,29 @@
 
 Projeto desenvolvido pelos colaboradores para o desafio Tech Challenge da Fase 01 do curso Pós-Tech IA Scientist - FIAP
 
-## Project Organization
+---
+## 📊 NPS Estimator
+Este projeto implementa um pipeline completo de Machine Learning para estimativa de NPS (Net Promoter Score), incluindo:
+
+Treinamento de modelo com LightGBM
+Inferência via código Python
+Interface interativa com Streamlit
+CLI com Typer
+Organização modular e pronta para produção
+
+---
+## 🧠 Visão Geral
+O objetivo do projeto é estimar o score de NPS de um cliente a partir de variáveis operacionais relacionadas à experiência do cliente, como:
+
+Número de reclamações
+Contatos com o atendimento ao cliente
+Tempo de resolução de problemas
+Atraso na entrega
+
+O modelo treinado pode ser utilizado tanto via linha de comando, quanto por meio de uma interface web interativa.
+
+
+## Organização do Projeto
 
 ```
 ├── LICENSE            <- Open-source license if one is chosen
@@ -51,11 +73,101 @@ Projeto desenvolvido pelos colaboradores para o desafio Tech Challenge da Fase 0
     │
     ├── modeling                
     │   ├── __init__.py 
+    │   ├── app_nps_inference.py<- Code to run the app with interface that predicts with trained model
     │   ├── predict.py          <- Code to run model inference with trained models          
     │   └── train.py            <- Code to train models
     │
     └── plots.py                <- Code to create visualizations
 ```
 
+---
+## ⚙️ Tecnologias Utilizadas
+
+Python 3.10+
+Pandas / NumPy
+LightGBM
+Joblib
+Streamlit
+Typer
+Loguru
+
+---
+## 📦 Instalação
+### 1️⃣ Criar e ativar o ambiente virtual
+```Shell 
+python -m venv .venv
+```
+**Windows**
+```Shell
+.venv\Scripts\activate
+```
+**Linux / macOS**
+```Shell
+source .venv/bin/activate
+```
+### 2️⃣ Instalar dependências
+```Shell
+pip install -r requirements.txt
+```
+Ou, se preferir instalar o projeto como pacote:
+```Shell
+pip install -e .
+```
+
+---
+## 🏋️ Treinamento do Modelo
+Para treinar o modelo e salvá-lo localmente:
+```Shell
+python -m nps_estimator.modeling.train
+```
+Durante o processo:
+- O dataset é carregado
+- O modelo LightGBM é treinado
+- Métricas como MAE, RMSE e R² são exibidas
+- O modelo final é salvo em disco
+
+---
+## 🔮 Inferência via Código Python
+Exemplo de uso da função de inferência:
+```Python
+from nps_estimator.modeling.predict import predict_nps
+
+data_input = {"complaints_count": 1,
+              "customer_service_contacts": 2,
+              "resolution_time_days": 3,
+              "delivery_delay_days": 4}
+
+prediction = predict_nps(data_input)
+print(prediction)
+```
+
+## 🖥️ Interface Web com Streamlit
+O projeto inclui uma interface gráfica para inferência interativa.
+
+### ▶️ Executar o app
+Na raiz do projeto:
+```Shell
+streamlit run nps_estimator/modeling/app_nps_inference.py
+```
+### 🎯 Funcionalidades da interface
+
+- Inputs numéricos para variáveis do cliente
+- Botão de predição
+- Exibição clara do NPS estimado
+
+### 🧪 Boas Práticas Aplicadas
+✅ Separação entre lógica de negócio e interface
+✅ Cache de artefatos com lru_cache
+✅ Imports absolutos e estrutura de pacote
+✅ Tipagem e docstrings padronizadas
+✅ Código preparado para API / deploy
+
+### 🚀 Próximos Passos (Sugestões)
+
+- [ ] Criar testes unitários
+- [ ] Deploy no Streamlit Cloud
+- [ ] Expor API com FastAPI
+- [ ] Versionamento de modelos
+- [ ] Monitoramento de predições
 --------
 
