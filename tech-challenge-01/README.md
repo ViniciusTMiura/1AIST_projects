@@ -100,6 +100,38 @@ O modelo treinado pode ser utilizado tanto via linha de comando, quanto por meio
 - Loguru
 
 ---
+## 📊 Descrição da Base de Dados
+
+A base de dados utilizada nos projetos contém informações relacionadas ao perfil do cliente, características do pedido, logística de entrega, interações com atendimento e métricas de satisfação. As variáveis disponíveis são descritas a seguir:
+
+| Variável | Descrição |
+|--------|----------|
+| `customer_id` | Identificador único do cliente. |
+| `order_id` | Identificador único do pedido. |
+| `customer_age` | Idade do cliente. |
+| `customer_region` | Região geográfica do cliente. |
+| `customer_tenure_months` | Tempo de relacionamento do cliente com a empresa (em meses). |
+| `order_value` | Valor total do pedido. |
+| `items_quantity` | Quantidade de itens no pedido. |
+| `discount_value` | Valor de desconto aplicado ao pedido. |
+| `payment_installments` | Número de parcelas do pagamento. |
+| `delivery_time_days` | Tempo total de entrega (em dias). |
+| `delivery_delay_days` | Quantidade de dias de atraso na entrega. |
+| `freight_value` | Valor do frete. |
+| `delivery_attempts` | Número de tentativas de entrega. |
+| `customer_service_contacts` | Número de contatos do cliente com o atendimento ao cliente. |
+| `resolution_time_days` | Tempo para resolução de problemas (em dias). |
+| `complaints_count` | Número de reclamações registradas pelo cliente. |
+| `repeat_purchase_30d` | Indica se houve recompra em até 30 dias após o pedido (0 = não, 1 = sim). |
+| `csat_internal_score` | Score interno de satisfação do cliente. |
+| `nps_score` | Nota de satisfação do cliente (NPS), variando de 0 a 10, coletada após a experiência de compra. |
+
+### 📝 Observações
+- A variável **`nps_score`** é utilizada como **variável alvo** nos modelos preditivos.
+- As demais variáveis podem ser utilizadas como **features** para análise exploratória e treinamento de modelos.
+- A base de dados é utilizada com fins **educacionais e analíticos**, no contexto da Pós Tech AI Scientist da FIAP.
+
+---
 ## 📦 Instalação
 ### 1️⃣ Criar e ativar o ambiente virtual
 ```Shell 
