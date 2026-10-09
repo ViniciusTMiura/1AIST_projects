@@ -1,0 +1,7 @@
+pandas
+numpy
+langchain
+langchain-google-genai
+chromadb
+jupyter
+python-dotenv
