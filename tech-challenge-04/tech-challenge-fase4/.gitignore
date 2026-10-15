@@ -18,3 +18,8 @@ env/
 
 # Outros
 .env
+
+# Ignorar banco de dados e arquivos pesados se gerados novamente
+data/*.csv
+data/processed/*.csv
+data/vector_db/*

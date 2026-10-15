@@ -1,7 +1,26 @@
-pandas
-numpy
-langchain
-langchain-google-genai
-chromadb
-jupyter
-python-dotenv
+# Dependências de Dados e Manipulação
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Processamento de Linguagem Natural (NLP) - Aulas 01, 02 e 03
+nltk>=3.8.1
+spacy>=3.7.0
+scikit-learn>=1.3.0
+
+# Visualização de Dados e Corpus
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Banco de Dados Vetorial & Embeddings
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# Orquestração RAG e LLM
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-google-genai>=1.0.0
+
+# Utilitários de Ambiente e Progresso
+python-dotenv>=1.0.0
+tqdm>=4.65.0
+jupyter>=1.0.0
