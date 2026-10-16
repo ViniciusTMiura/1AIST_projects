@@ -3,6 +3,9 @@
 Solução desenvolvida para o **Tech Challenge da Fase 4 - AI Scientist (Pós-Tech FIAP)**.  
 O objetivo deste projeto é construir uma solução completa de **Voice of Customer (VoC) Intelligence baseada em Retrieval-Augmented Generation (RAG)**, permitindo a exploração inteligente e fundamentada em dados das avaliações de clientes do **Brazilian E-Commerce Public Dataset by Olist**.
 
+> 🔒 **Arquitetura 100% Local, Offline e Gratuita:**  
+> Todo o pipeline — desde o pré-processamento até os embeddings, banco vetorial ChromaDB e síntese de respostas — roda **localmente na sua máquina**, sem consumir APIs pagas na nuvem e sem necessidade de chaves de API (`.env`). Risco financeiro: **Zero**.
+
 ---
 
 ## 📌 Visão Geral do Problema de Negócio
@@ -14,16 +17,16 @@ Analisar manualmente mais de 40 mil comentários é uma tarefa demorada e pouco 
 
 ## 🏗️ Arquitetura da Solução
 
-O fluxo de funcionamento do sistema foi desenhado em camadas rigorosas de NLP e IA Generativa:
+O fluxo de funcionamento do sistema foi desenhado em camadas rigorosas de NLP e IA Generativa Local:
 
 ```mermaid
 flowchart TD
-    A["Pergunta do Gestor / Analista"] --> B["Transformação da Pergunta em Embedding"]
+    A["Pergunta do Gestor / Analista"] --> B["Transformação da Pergunta em Embedding (MiniLM)"]
     B --> C["Busca Semântica no ChromaDB (Cosseno + Filtro de Metadados)"]
     C --> D["Recuperação e Ranquear Top-K Evidências"]
     D --> E["Construção do Contexto Enriquecido (IDs, Categorias, Datas, Notas)"]
     E --> F["Prompt Engineering com Regras Anti-Alucinação"]
-    F --> G["Invocação do Modelo de Linguagem (LLM / Google Gemini)"]
+    F --> G["Síntese Local de Evidências (Grounded Intelligence)"]
     G --> H["Resposta Final Fundamentada + Citação das Evidências"]
 ```
 
@@ -45,12 +48,12 @@ tech-challenge-fase4/
 │   ├── 02_pipeline_preprocessamento.ipynb # Aula 02: Limpeza, contrações PT-BR, RSLP e stop words
 │   ├── 03_vetorizacao_tfidf_baseline.ipynb# Aula 03: BoW, N-grams, TF-IDF e Baseline de ML
 │   ├── 04_banco_vetorial_chroma.ipynb   # Embeddings, indexação e busca vetorial por cosseno
-│   └── 05_pipeline_rag_llm.ipynb        # RAG Completo: Contexto, LLM, evidências e tratamento de nulos
+│   └── 05_pipeline_rag_llm.ipynb        # RAG Completo: Contexto, síntese, evidências e tratamento de nulos
 ├── src/
 │   ├── __init__.py
 │   ├── preprocessing.py                 # Pipeline modular e idempotente de pré-processamento
 │   ├── vectorization.py                 # Vetorizadores BoW/TF-IDF, esparsidade e termos discriminativos
-│   └── rag_pipeline.py                  # Classe orquestradora do RAG para consultas
+│   └── rag_pipeline.py                  # Classe orquestradora do RAG para consultas 100% locais
 ├── docs/
 │   └── 01_engenharia_de_dados.md        # Documento formal com a defesa de todas as decisões técnicas
 ├── requirements.txt                     # Dependências do projeto
@@ -89,7 +92,7 @@ A solução está dividida em 5 notebooks sequenciais e reproduzíveis, fundamen
    - Implementação do **Desafio Adicional: Metadata Filtering** na busca por cosseno.
 
 5. **[`05_pipeline_rag_llm.ipynb`](notebooks/05_pipeline_rag_llm.ipynb):**
-   - Orquestração do pipeline completo com LangChain.
+   - Orquestração do pipeline completo com LangChain e síntese local de evidências.
    - Engenharia de Prompts rígida com regras anti-alucinação.
    - Execução dos cenários de teste exigidos no edital:
      - Investigação de reclamações de entrega.
@@ -116,18 +119,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Configurar Variáveis de Ambiente
-Crie um arquivo `.env` dentro da pasta `tech-challenge-fase4/`:
-```env
-GOOGLE_API_KEY="SUA_CHAVE_DO_GOOGLE_GEMINI"
-```
-*(Caso não possua chave, a execução dos notebooks 01 a 04 funciona 100% offline. O notebook 05 conta com simulação de montagem de prompt caso a chave não seja informada).*
-
-### 4. Executar os Notebooks
+### 3. Executar os Notebooks
 Abra o Jupyter e execute os notebooks na ordem numérica:
 ```bash
 jupyter notebook notebooks/
 ```
+*(Não é necessária nenhuma chave de API ou conexão externa. Tudo roda 100% offline).*
 
 ---
 
