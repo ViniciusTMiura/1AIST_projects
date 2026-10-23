@@ -15,9 +15,12 @@ seaborn>=0.12.0
 chromadb>=0.4.0
 sentence-transformers>=2.2.0
 
-# Orquestração RAG Local
-langchain>=0.1.0
-langchain-community>=0.0.10
+# Geração com LLM de nuvem (OPCIONAL) - habilita o provider Gemini no estágio de geração.
+# Sem este pacote/chave, o pipeline opera 100% offline via gerador local (fallback).
+# A chave vem da variável GEMINI_API_KEY (ou GOOGLE_API_KEY), carregada de um .env local
+# e não versionado via python-dotenv.
+google-genai>=1.0.0
+python-dotenv>=1.0.0
 
 # Utilitários de Progresso e Ambiente
 tqdm>=4.65.0
