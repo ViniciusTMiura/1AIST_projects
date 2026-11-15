@@ -3,8 +3,10 @@
 Solução desenvolvida para o **Tech Challenge da Fase 4 - AI Scientist (Pós-Tech FIAP)**.  
 O objetivo deste projeto é construir uma solução completa de **Voice of Customer (VoC) Intelligence baseada em Retrieval-Augmented Generation (RAG)**, permitindo a exploração inteligente e fundamentada em dados das avaliações de clientes do **Brazilian E-Commerce Public Dataset by Olist**.
 
-> 🔒 **Arquitetura 100% Local, Offline e Gratuita:**  
-> Todo o pipeline — desde o pré-processamento até os embeddings, banco vetorial ChromaDB e síntese de respostas — roda **localmente na sua máquina**, sem consumir APIs pagas na nuvem e sem necessidade de chaves de API (`.env`). Risco financeiro: **Zero**.
+> 🔒 **Arquitetura com execução local por padrão:**
+> O pipeline utiliza processamento local para pré-processamento, geração de embeddings, armazenamento vetorial no ChromaDB e síntese de respostas. O mecanismo de geração local é o padrão e não exige chave de API ou conexão com serviços externos.
+>
+> **Opção adicional:** o projeto também permite configurar o Google Gemini como mecanismo alternativo de geração de respostas, mediante chave de API e conexão com a internet.
 
 ---
 
@@ -17,20 +19,21 @@ Analisar manualmente mais de 40 mil comentários é uma tarefa demorada e pouco 
 
 ## 🏗️ Arquitetura da Solução
 
-O fluxo de funcionamento do sistema foi desenhado em camadas rigorosas de NLP e IA Generativa Local:
+O fluxo de funcionamento do sistema segue uma arquitetura RAG, organizada em etapas de processamento da pergunta, recuperação de evidências e geração de respostas fundamentadas.
 
 ```mermaid
 flowchart TD
-    A["Pergunta do Gestor / Analista"] --> B["Transformação da Pergunta em Embedding (MiniLM)"]
-    B --> C["Busca Semântica no ChromaDB (Cosseno + Filtro de Metadados)"]
-    C --> D["Recuperação e Ranquear Top-K Evidências"]
-    D --> E["Construção do Contexto Enriquecido (IDs, Categorias, Datas, Notas)"]
-    E --> F["Prompt Engineering com Regras Anti-Alucinação"]
-    F --> G["Síntese Local de Evidências (Grounded Intelligence)"]
-    G --> H["Resposta Final Fundamentada + Citação das Evidências"]
+    A["Pergunta do Gestor / Analista"] --> B["Transformação da Pergunta em Embedding"]
+    B --> C["Busca Semântica no ChromaDB"]
+    C --> D["Recuperação e Ranqueamento Top-K de Evidências"]
+    D --> E["Construção do Contexto com Metadados e Avaliações"]
+    E --> F["Aplicação de Regras para Respostas Fundamentadas"]
+    F --> G{"Mecanismo de geração"}
+    G --> H["Gerador Local"]
+    G --> I["Gemini Opcional"]
+    H --> J["Resposta Final com Evidências Recuperadas"]
+    I --> J
 ```
-
----
 
 ## 📂 Estrutura do Repositório
 
@@ -53,7 +56,7 @@ tech-challenge-fase4/
 │   ├── __init__.py
 │   ├── preprocessing.py                 # Pipeline modular e idempotente de pré-processamento
 │   ├── vectorization.py                 # Vetorizadores BoW/TF-IDF, esparsidade e termos discriminativos
-│   └── rag_pipeline.py                  # Classe orquestradora do RAG para consultas 100% locais
+│   └── rag_pipeline.py          # Classe orquestradora do pipeline RAG com geração local ou Gemini opcional
 ├── docs/
 │   └── 01_engenharia_de_dados.md        # Documento formal com a defesa de todas as decisões técnicas
 ├── requirements.txt                     # Dependências do projeto
@@ -92,7 +95,7 @@ A solução está dividida em 5 notebooks sequenciais e reproduzíveis, fundamen
    - Implementação do **Desafio Adicional: Metadata Filtering** na busca por cosseno.
 
 5. **[`05_pipeline_rag_llm.ipynb`](notebooks/05_pipeline_rag_llm.ipynb):**
-   - Orquestração do pipeline completo com LangChain e síntese local de evidências.
+   - Orquestração do pipeline RAG por meio da classe `PipelineRAG`, com recuperação de evidências e geração de respostas por mecanismo local ou Gemini opcional.
    - Engenharia de Prompts rígida com regras anti-alucinação.
    - Execução dos cenários de teste exigidos no edital:
      - Investigação de reclamações de entrega.
@@ -124,7 +127,7 @@ Abra o Jupyter e execute os notebooks na ordem numérica:
 ```bash
 jupyter notebook notebooks/
 ```
-*(Não é necessária nenhuma chave de API ou conexão externa. Tudo roda 100% offline).*
+(O modo de geração local funciona sem chave de API ou conexão externa. Para utilizar o Gemini, é necessária uma chave de API e conexão com a internet).
 
 ---
 
